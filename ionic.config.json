@@ -1,0 +1,7 @@
+{
+  "name": "putio-ui",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react-vite"
+}
