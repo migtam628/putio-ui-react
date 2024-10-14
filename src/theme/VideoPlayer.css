@@ -1,0 +1,4 @@
+ion-modal#videoModal {
+    --height:  60vh;
+    --max-height: 90vh;
+}
