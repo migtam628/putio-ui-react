@@ -29,30 +29,30 @@ const appPages: AppPage[] = [
     iosIcon: homeOutline,
     mdIcon: homeSharp
   },
-  {
-    title: 'Files',
-    url: '/files',
-    iosIcon: folderOpenOutline,
-    mdIcon: folderOpenSharp,
-  },
-  {
-    title: 'Downloads',
-    url: '/downloads',
-    iosIcon: archiveOutline,
-    mdIcon: archiveSharp,
-  },
-  {
-    title: 'Settings',
-    url: '/settings',
-    iosIcon: mailOutline,
-    mdIcon: mailSharp,
-  },
-  {
-    title: 'About',
-    url: '/about',
-    iosIcon: warningOutline,
-    mdIcon: warningSharp,
-  }
+  // {
+  //   title: 'Files',
+  //   url: '/files',
+  //   iosIcon: folderOpenOutline,
+  //   mdIcon: folderOpenSharp,
+  // },
+  // {
+  //   title: 'Downloads',
+  //   url: '/downloads',
+  //   iosIcon: archiveOutline,
+  //   mdIcon: archiveSharp,
+  // },
+  // {
+  //   title: 'Settings',
+  //   url: '/settings',
+  //   iosIcon: mailOutline,
+  //   mdIcon: mailSharp,
+  // },
+  // {
+  //   title: 'About',
+  //   url: '/about',
+  //   iosIcon: warningOutline,
+  //   mdIcon: warningSharp,
+  // }
 ];
 
 const labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
