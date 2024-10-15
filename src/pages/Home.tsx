@@ -97,32 +97,31 @@ const Home = () => {
 
   // Function to play a video file
   const playVideo = (fileName: string) => {
-    const videoUri = `http://localhost:2000/videos/${fileName}`;
+    const videoUri = `/videos/${fileName}`;
     setVideoSrc(videoUri);
     console.log(videoUri);
   };
 
   useEffect(() => {
     if (videoSrc.includes(".mp4") || videoSrc.includes(".mkv")) {
-        setVideoSrc(videoSrc);
-        setIsVideoModalOpen(!isVideoModalOpen);
+      setVideoSrc(videoSrc);
+      setIsVideoModalOpen(!isVideoModalOpen);
     }
   }, [videoSrc]);
 
   // Function to load active downloads from the server
   const displayActiveDownloads = () => {
-    fetch("http://localhost:2000/active-downloads")
+    fetch("/active-downloads")
       .then((response) => response.json())
       .then((downloads) => setActiveDownloads(downloads))
       .catch((error) => {
         // console.error("Error loading active downloads", error);
-        // alert("An error occurred while fetching active downloads.");
       });
   };
 
   // Function to load file list from the server
   const loadFiles = () => {
-    fetch("http://localhost:2000/list-files")
+    fetch("/list-files")
       .then((response) => response.json())
       .then((items) => setFiles(items))
       .catch((error) => {
@@ -137,11 +136,11 @@ const Home = () => {
 
     const downloadInterval = setInterval(() => {
       displayActiveDownloads();
-    }, 3000);
+    }, 1500);
 
     const fileInterval = setInterval(() => {
       loadFiles();
-    }, 5000);
+    }, 3000);
 
     // Clear intervals on component unmount
     return () => {
@@ -160,31 +159,29 @@ const Home = () => {
 
   // Function to stop all downloads
   const stopAllDownloads = () => {
-    fetch("http://localhost:2000/stop-all-downloads")
+    fetch("/stop-all-downloads")
       .then((response) => response.json())
       .then((data) => {
-        alert(data.message);
+        console.log(data.message);
         displayActiveDownloads(); // Refresh the active downloads list
       })
       .catch((error) =>
-        alert("An error occurred while stopping all downloads.")
+        console.log(error)
       );
   };
 
   // Function to stop a specific download
   const stopDownload = (magnetLink: string) => {
-    fetch(
-      `http://localhost:2000/stop-download?magnetLink=${encodeURIComponent(
-        magnetLink
-      )}`
-    )
+    console.log(magnetLink);
+    fetch(`/stop-download?magnet_link=${magnetLink}`)
       .then((response) => response.json())
       .then((data) => {
-        alert(data.message);
+        // alert(data.message);
+        console.log(data);
         displayActiveDownloads(); // Refresh after stopping the download
       })
       .catch((error) =>
-        alert("An error occurred while stopping the download.")
+        console.log(error)
       );
   };
 
@@ -194,7 +191,9 @@ const Home = () => {
       return <h6 className="text-gray-500 m-4">No active downloads.</h6>;
     }
 
-    return activeDownloads.map((download) => (
+    return activeDownloads.map((download) => {
+        console.log(download);
+      return (
       <div
         key={download.magnetLink}
         className="bg-slate-800 border border-slate-600 rounded-lg p-4 shadow-md hover:shadow-lg transition duration-300 flex flex-col justify-between cursor-pointer mb-2"
@@ -234,21 +233,26 @@ const Home = () => {
           </button>
         </div>
       </div>
-    ));
+    )});
   };
 
   function deleteFile(fileName: string) {
-    fetch(
-      `http://localhost:2000/delete-file?fileName=${encodeURIComponent(
-        fileName
-      )}`
-    )
+    fetch(`/delete-file/${fileName}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
       .then((response) => response.json())
       .then((data) => {
-        alert(data.message);
+        // alert(data.message);
         loadFiles(); // Refresh the file list
       })
-      .catch((error) => alert("An error occurred while deleting the file."));
+      .catch((error) =>
+        console.log({
+          error,
+        })
+      );
   }
 
   // Render the list of files
@@ -288,8 +292,6 @@ const Home = () => {
       </div>
     ));
   };
-
-  
 
   return (
     <Page title="Home">
@@ -333,7 +335,7 @@ const Home = () => {
             : "hidden"
         }
       >
-        <FileList/>
+        <FileList />
       </section>
     </Page>
   );
